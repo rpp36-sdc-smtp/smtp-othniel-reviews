@@ -3,11 +3,11 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-  res.send(200);
+  res.sendStatus(200);
 });
 
-app.listen(port, () => {
-  console.log('listening on port ', port);
-});
+// app.listen(port, () => {
+//   console.log('listening on port ', port);
+// });
 
 module.exports = app;
