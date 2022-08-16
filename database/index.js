@@ -1,9 +1,9 @@
 const { Pool } = requre('pg');
 
 const pool = new Pool({
-  user: '',
-  host: '',
-  database: '',
+  user: 'user',
+  host: 'localhost',
+  database: 'smtp',
   port: 3001,
 });
 
