@@ -3,14 +3,14 @@ const now = require('performance-now');
 
 exports.copy = (pool, fileName, options) => {
   const start = now();
-  const filePath = path.join(__dirname, `legacy_data/${fileName}.csv`);
+  const filePath = path.join(__dirname, `csv/${fileName}.csv`);
   const query = `
     COPY ${options.tableName}(${options.colNames})
     FROM '${filePath}'
     DELIMITER ','
     CSV HEADER;
   `;
-
+  console.log(`copying file: ${fileName}`);
   return pool
     .query(query)
     .then(() => {
@@ -30,4 +30,16 @@ exports.update = (pool, data, options) => {
   return pool
     .query(query)
     .catch((err) => { throw err; });
+};
+
+exports.syncSerialId = (pool, options) => {
+  const query = `
+    SELECT setval( pg_get_serial_sequence('${options.tableName}', 'id'),
+    (SELECT max(id) FROM ${options.tableName}));
+    `;
+  return pool
+    .query(query)
+    .then(() => {
+      console.log(`complete sync serial id for ${options.tableName}`);
+    });
 };

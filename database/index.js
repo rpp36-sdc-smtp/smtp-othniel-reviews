@@ -1,10 +1,11 @@
-const { Pool } = requre('pg');
+const { Pool } = require('pg');
 
 const pool = new Pool({
-  user: 'user',
+  user: 'othniel',
   host: 'localhost',
-  database: 'smtp',
-  port: 3001,
+  database: 'sdc',
+  password: '1234',
+  port: 5432,
 });
 
 pool.on('connect', client => {
