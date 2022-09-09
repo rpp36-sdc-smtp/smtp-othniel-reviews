@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
 
-// var router = require('./routes.js');
+var router = require('./routes.js');
 
-// app.use('/', router);
+app.use('/', router);
 
 app.get('/', (req, res) => {
   res.sendStatus(200);
