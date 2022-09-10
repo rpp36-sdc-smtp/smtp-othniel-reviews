@@ -3,6 +3,8 @@ const app = express();
 
 var router = require('./routes.js');
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/', router);
 
 app.get('/', (req, res) => {
