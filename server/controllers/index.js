@@ -90,16 +90,93 @@ module.exports = {
           console.log(err);
           res.status(500).send(err);
         });
+    },
+    helpful: function (req, res) {
+      let { review_id } = req.params;
+      let col = 'helpfulness';
+      helper(review_id, col)
+        .then(() => {
+          res.status(204).send('No Content');
+        }).catch((err) => {
+          res.status(500).send(err);
+        });
+    },
+    report: function (req, res) {
+      let { review_id } = req.params;
+      let col = 'report';
+      helper(review_id, col)
+        .then(() => {
+          res.status(204).send('No Content');
+        }).catch((err) => {
+          res.status(500).send(err);
+        });
     }
   },
   meta: {
     get: function (req, res) {
-      // code
-      res.send('meta get');
+      let { product_id } = req.query;
+
+      const ratingQueryStr = `select rating, count(*) from reviews where product_id=${product_id} and reported=false group by rating;`;
+
+      const recommendQueryStr = `select recommend, count(*) from reviews where product_id=${product_id} and reported=false group by recommend;`;
+
+      const charQueryStr = `select characteristic_id, name, avg(value) as value from characteristicreview rv join characteristics char on char.id=rv.characteristic_id join reviews r on r.id=rv.review_id where r.reported=false and char.product_id=${product_id} group by characteristic_id, name;`;
+
+      const rating = pool.query(ratingQueryStr);
+      const rec = pool.query(recommendQueryStr);
+      const char = pool.query(charQueryStr);
+      Promise.all([rating, rec, char])
+        .then((result) => {
+          let [rating, recommend, char] = result;
+          console.log(char.rows);
+          rating = format(rating.rows);
+          recommend = format(recommend.rows);
+          char = charFormat(char.rows);
+          const endRes = {};
+          endRes.product_id = product_id;
+          endRes.ratings = rating;
+          endRes.recommended = recommend;
+          endRes.characteristics = char;
+          res.send(endRes);
+        });
     },
-    post: function (req, res) {
-      // code
-      res.send('meta post');
-    }
   },
+};
+
+helper = (id, col) => {
+  let query = '';
+  if (col === 'helpfulness') {
+    query = `update reviews set helpfulness=helpfulness+1 where id=${id}`;
+  }
+  if (col === 'report') {
+    query = `update reviews set reported=true where id=${id}`;
+  }
+  return pool.query(query).catch((err) => { throw err; });
+};
+
+format = (arr) => {
+  if (arr[0].rating) {
+    ratings = {};
+    arr.forEach(obj => {
+      ratings[obj.rating] = obj.count;
+    });
+    return ratings;
+  } else {
+    recommended = {};
+    arr.forEach(obj => {
+      recommended[obj.recommend] = obj.count;
+    });
+    return recommended;
+  }
+};
+
+charFormat = (arr) => {
+  let char = {};
+  arr.forEach(obj => {
+    let inner = {};
+    inner.id = obj.characteristic_id;
+    inner.value = obj.value;
+    char[obj.name] = inner;
+  });
+  return char;
 };
