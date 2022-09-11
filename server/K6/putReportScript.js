@@ -13,11 +13,12 @@ export const options = {
 };
 
 export default function () {
-  const min = 900009;
-  const max = 1000011;
+  const min = 5197457;
+  const max = 5774952;
   const rand = Math.floor(Math.random() * (max - min + 1)) + min;
-  const res = http.get(`http://localhost:3001/reviews/?product_id=${rand}`);
-  check(res, { 'status was 200': (r) => r.status == 200, // status code must be 200 for this get request
+  const res = http.put(`http://localhost:3001/reviews/${rand}/report`);
+
+  check(res, { 'status was 201': (r) => r.status == 201, // status code must be 201 for this post request
   }) || errorRate.add(1);
   sleep(1);
 }

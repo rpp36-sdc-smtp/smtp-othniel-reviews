@@ -61,13 +61,13 @@ describe('Get routes for reviews', () => {
 describe('Post routes for reviews', () => {
   const body = {
     'product_id': 1000011,
-    'rating':  4,
+    'rating':  1,
     'summary': 'summary here',
     'body': 'body here',
     'recommend': true,
     'name': 'test',
     'email': 'test@tester.com',
-    'photos': ['https://res.cloudinary.com/lexicon-atelier/image/upload/v1661733999/nnoyb1vnnkrmn0t8gvmo.jpg', 'https://images.unsplash.com/photo-1561693532-9ff59442a7db?ixlib=rb-1.2.1&auto=format&fit=crop&w=975&q=80'],
+    'photos': ['photo1.jpg', 'photo2.png'],
     'characteristics': {'3347676':5, '3347677':2, '3347678':3, '3347679':1}
   };
 

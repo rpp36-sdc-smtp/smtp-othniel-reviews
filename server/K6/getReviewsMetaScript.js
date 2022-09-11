@@ -16,8 +16,9 @@ export default function () {
   const min = 900009;
   const max = 1000011;
   const rand = Math.floor(Math.random() * (max - min + 1)) + min;
-  const res = http.get(`http://localhost:3001/reviews/?product_id=${rand}`);
-  check(res, { 'status was 200': (r) => r.status == 200, // status code must be 200 for this get request
+  const res = http.get(`http://localhost:3001/reviews/meta?product_id=${rand}`);
+
+  check(res, { 'status was 200': (r) => r.status == 200, // status code must be 200 for this post request
   }) || errorRate.add(1);
   sleep(1);
 }

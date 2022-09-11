@@ -53,8 +53,8 @@ CREATE TABLE characteristicreview (
   "value" INT
 );
 
-CREATE INDEX review_product ON reviews(product_id);
-CREATE INDEX char_product ON characteristics(product_id);
-CREATE INDEX char_index ON characteristicreview(characteristic_id);
-CREATE INDEX review_index ON characteristicreview(review_id);
-CREATE INDEX photo_reviews ON photos(review_id);
+-- CREATE INDEX review_product ON reviews(product_id);
+-- CREATE INDEX char_product ON characteristics(product_id);
+-- CREATE INDEX char_index ON characteristicreview(characteristic_id);
+-- CREATE INDEX review_index ON characteristicreview(review_id);
+-- CREATE INDEX photo_reviews ON photos(review_id);
