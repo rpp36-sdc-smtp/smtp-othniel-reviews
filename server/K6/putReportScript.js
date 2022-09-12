@@ -4,16 +4,18 @@ import { Rate } from 'k6/metrics';
 
 export const errorRate = new Rate('errors');
 export const options = {
-  scenarios: {
-    constant_request_rate: {
-      executor: 'constant-arrival-rate',
-      duration: '10m',
-      rate: 100, // increase this unit to increse rps
-      timeUnit: '1s',
-      preAllocatedVUs: 100,
-      maxVUs: 1000,
-    },
-  },
+  // scenarios: {
+  //   constant_request_rate: {
+  //     executor: 'constant-arrival-rate',
+  //     duration: '1m',
+  //     rate: 50, // increase this unit to increse rps
+  //     timeUnit: '1s',
+  //     preAllocatedVUs: 100,
+  //     maxVUs: 1000,
+  //   },
+  // },
+  vus: 100,
+  duration: '1m',
   thresholds: {
     http_req_failed: ['rate<0.01'], // errors should be less than 1%
     http_req_duration: ['p(100)<2000'], // all requests should be below 2000ms

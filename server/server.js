@@ -1,4 +1,5 @@
-require('newrelic');
+// do not run newrelic during stress test
+// require('newrelic');
 const express = require('express');
 const app = express();
 
