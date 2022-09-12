@@ -71,7 +71,6 @@ module.exports = {
               // count++;
             }
             charQuery.text = charQuery.text.substring(0, charQuery.text.length - 1);
-            // console.log(charQuery.text);
             await pool.query(charQuery.text);
             if (photos.length > 0) {
               // let newId = await pool.query('select max(id) from photos');
