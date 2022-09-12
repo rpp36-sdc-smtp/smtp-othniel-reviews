@@ -1,3 +1,5 @@
 node_modules
 csv
 coverage
+newrelic.js
+newrelic_agent
