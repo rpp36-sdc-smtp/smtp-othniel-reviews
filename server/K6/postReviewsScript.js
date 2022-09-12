@@ -4,8 +4,16 @@ import { Rate } from 'k6/metrics';
 
 export const errorRate = new Rate('errors');
 export const options = {
-  vus: 1,
-  duration: '2m',
+  scenarios: {
+    constant_request_rate: {
+      executor: 'constant-arrival-rate',
+      duration: '1m',
+      rate: 10, // increase this unit to increse rps
+      timeUnit: '1s',
+      preAllocatedVUs: 100,
+      maxVUs: 1000,
+    },
+  },
   thresholds: {
     http_req_failed: ['rate<0.01'], // errors should be less than 1%
     http_req_duration: ['p(100)<2000'], // all requests should be below 2000ms
@@ -25,9 +33,9 @@ export default function () {
     name: 'k6user',
     email: 'k6@user.com',
     photos: ['photo1.png', 'photo2.png'],
-    characteristics: {'3347676':5, '3347677':2, '3347678':3, '3347679':1}
+    characteristics: {'3347676':5, '3347677':2, '3347678':3, '3347679':1},
   };
-  const res = http.post(`http://localhost:3001/reviews/?product_id=${rand}`, body);
+  const res = http.post(`http://localhost:3001/reviews/?product_id=${rand}`, JSON.stringify(body), {headers: { 'Content-Type': 'application/json' }, });
 
   check(res, { 'status was 201': (r) => r.status == 201, // status code must be 201 for this post request
   }) || errorRate.add(1);
