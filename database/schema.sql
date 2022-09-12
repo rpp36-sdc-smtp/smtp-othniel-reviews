@@ -53,8 +53,13 @@ CREATE TABLE characteristicreview (
   "value" INT
 );
 
--- CREATE INDEX review_product ON reviews(product_id);
--- CREATE INDEX char_product ON characteristics(product_id);
--- CREATE INDEX char_index ON characteristicreview(characteristic_id);
--- CREATE INDEX review_index ON characteristicreview(review_id);
--- CREATE INDEX photo_reviews ON photos(review_id);
+-- use setval after copying files
+SELECT setval ('reviews_id_seq', (SELECT max(id) FROM reviews) + 1);
+SELECT setval ('photos_id_seq', (SELECT max(id) FROM photos) + 1);
+SELECT setval ('characteristicreview_id_seq', (SELECT max(id) FROM characteristicreview) + 1);
+
+CREATE INDEX review_product ON reviews(product_id);
+CREATE INDEX char_product ON characteristics(product_id);
+CREATE INDEX char_index ON characteristicreview(characteristic_id);
+CREATE INDEX review_index ON characteristicreview(review_id);
+CREATE INDEX photo_reviews ON photos(review_id);
