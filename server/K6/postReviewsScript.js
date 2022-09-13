@@ -4,16 +4,6 @@ import { Rate } from 'k6/metrics';
 
 export const errorRate = new Rate('errors');
 export const options = {
-  // scenarios: {
-  //   constant_request_rate: {
-  //     executor: 'constant-arrival-rate',
-  //     duration: '1m',
-  //     rate: 1, // increase this unit to increse rps
-  //     timeUnit: '1s',
-  //     preAllocatedVUs: 100,
-  //     maxVUs: 1000,
-  //   },
-  // },
   vus: 100,
   duration: '1m',
   thresholds: {
@@ -34,7 +24,7 @@ export default function () {
     recommend: false,
     name: 'k6user',
     email: 'k6@user.com',
-    photos: [],
+    photos: ['photo1.png', 'photo2.jpg'],
     characteristics: {'3347676':5, '3347677':2, '3347678':3, '3347679':1},
   };
   const res = http.post(`http://localhost:3001/reviews/?product_id=${rand}`, JSON.stringify(body), {headers: { 'Content-Type': 'application/json' }, });
@@ -43,6 +33,3 @@ export default function () {
   }) || errorRate.add(1);
   sleep(1);
 }
-
-// review id max = 5774952
-// product id max = 1000011
