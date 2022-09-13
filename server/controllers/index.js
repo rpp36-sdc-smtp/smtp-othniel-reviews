@@ -62,29 +62,30 @@ module.exports = {
           text: 'insert into photos (url, review_id) values',
         };
         pool.query(revQuery)
-          .then(async (data) => {
+          .then(async function test(data) {
             result.review_id = data.rows[0].id;
-            // let count = 1;
             for (const [key, value] of Object.entries(submit.characteristics)) {
-              // let newId = await pool.query('select max(id) from characteristicreview');
               charQuery.text += ` (${key}, ${result.review_id}, ${value}),`;
-              // count++;
             }
             charQuery.text = charQuery.text.substring(0, charQuery.text.length - 1);
-            await pool.query(charQuery.text);
+            try {
+              await pool.query(charQuery.text);
+            } catch(err) {
+              throw err;
+            }
             if (photos.length > 0) {
-              // let newId = await pool.query('select max(id) from photos');
-              // count = 1;
               photos.forEach(photo => {
                 photoQuery.text += `('${photo}', ${result.review_id}),`;
-                // count++;
               });
               photoQuery.text = photoQuery.text.substring(0, photoQuery.text.length - 1);
-              await pool.query(photoQuery.text);
+              try {
+                await pool.query(photoQuery.text);
+              } catch(err) {
+                throw err;
+              }
             }
             res.status(201).send('Created');
           }).catch((err) => {
-            // console.log(err);
             res.status(500).send(err);
           });
       }

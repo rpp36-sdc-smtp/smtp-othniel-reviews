@@ -3,3 +3,4 @@ csv
 coverage
 newrelic.js
 newrelic_agent
+access.log

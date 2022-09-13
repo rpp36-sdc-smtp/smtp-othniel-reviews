@@ -53,10 +53,10 @@ CREATE TABLE characteristicreview (
   "value" INT
 );
 
--- use setval after copying files
-SELECT setval ('reviews_id_seq', (SELECT max(id) FROM reviews) + 1);
-SELECT setval ('photos_id_seq', (SELECT max(id) FROM photos) + 1);
-SELECT setval ('characteristicreview_id_seq', (SELECT max(id) FROM characteristicreview) + 1);
+-- use setval after copying files inside of index.js
+-- SELECT setval ('reviews_id_seq', (SELECT max(id) FROM reviews) + 1);
+-- SELECT setval ('photos_id_seq', (SELECT max(id) FROM photos) + 1);
+-- SELECT setval ('characteristicreview_id_seq', (SELECT max(id) FROM characteristicreview) + 1);
 
 CREATE INDEX review_product ON reviews(product_id);
 CREATE INDEX char_product ON characteristics(product_id);
