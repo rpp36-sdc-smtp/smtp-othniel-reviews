@@ -9,6 +9,7 @@ const pool = new Pool({
 });
 
 pool.on('connect', client => {
+  console.log('connected to psql...');
 });
 
 module.exports = pool;

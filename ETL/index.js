@@ -39,9 +39,9 @@ const ETL = () => load.copy(pool, 'product', option.product)
   .then(() => load.copy(pool, 'characteristic_reviews', option.characteristicreview))
   .then(async function setVals() {
     try {
-      await pool.query('SELECT setval ("reviews_id_seq", (SELECT max(id) FROM reviews) + 1)');
-      await pool.query('SELECT setval ("photos_id_seq", (SELECT max(id) FROM photos) + 1);');
-      await pool.query('SELECT setval ("characteristicreview_id_seq", (SELECT max(id) FROM characteristicreview) + 1);');
+      await pool.query('SELECT setval (\'reviews_id_seq\', (SELECT max(id) FROM reviews) + 1)');
+      await pool.query('SELECT setval (\'photos_id_seq\', (SELECT max(id) FROM photos) + 1);');
+      await pool.query('SELECT setval (\'characteristicreview_id_seq\', (SELECT max(id) FROM characteristicreview) + 1);');
     } catch(err) {
       throw err;
     }

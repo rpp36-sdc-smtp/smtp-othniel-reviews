@@ -4,16 +4,6 @@ import { Rate } from 'k6/metrics';
 
 export const errorRate = new Rate('errors');
 export const options = {
-  // scenarios: {
-  //   constant_request_rate: {
-  //     executor: 'constant-arrival-rate',
-  //     duration: '1m',
-  //     rate: 50, // increase this unit to increse rps
-  //     timeUnit: '1s',
-  //     preAllocatedVUs: 100,
-  //     maxVUs: 1000,
-  //   },
-  // },
   vus: 100,
   duration: '1m',
   thresholds: {
@@ -32,6 +22,3 @@ export default function () {
   }) || errorRate.add(1);
   sleep(1);
 }
-
-// review id max = 5774952
-// product id max = 1000011

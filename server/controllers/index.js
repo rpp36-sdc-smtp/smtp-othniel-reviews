@@ -1,6 +1,16 @@
-// explain analyze for query info
 const pool = require('../../database/index');
 module.exports = {
+  test: {
+    get: function (req, res) {
+      pool.query('select max(id) from reviews;')
+        .then((data) => {
+          res.status(200).send(`${data.rows[0].max}`);
+        })
+        .catch((err) => {
+          res.status(400).send(err);
+        });
+    },
+  },
   reviews: {
     get: function (req, res) {
       let orderBy = 'order by helpfulness desc';
