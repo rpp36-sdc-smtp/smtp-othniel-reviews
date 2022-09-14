@@ -26,10 +26,13 @@ module.exports = {
           page: req.query.page || 0,
           count: req.query.count || 5,
         };
+        // change this into an imported helper func
         pool.query(`select review_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness from reviews left outer join photos on photos.review_id = reviews.id where product_id = ${product_id} ${orderBy}`)
           .then(async (data) => {
             const reviews = data.rows.slice();
+            // change this into an imported helper func
             const photosPromise = reviews.map((review) => {
+              // change this into an imported helper func
               return pool.query(`select id, url from photos where review_id = ${review.review_id}`)
                 .then((data) => data.rows)
                 .catch((err) => { throw err; });
@@ -38,6 +41,7 @@ module.exports = {
               .then((photo) => photo)
               .catch((err) => { throw err; });
 
+            // change this into an imported helper func
             for (var i = 0; i < reviews.length; i++) {
               const review = reviews[i];
               const photo = photos[i];
